@@ -46,7 +46,7 @@ pipeline {
                 // Deploy the Spring Boot application (Optional, if you want Jenkins to deploy it)
                 script {
                     // Example of deploying with a shell script
-                    sh 'nohup java -jar target/demo.jar &'
+                    sh 'nohup java -jar target/demo-1.0.0.jar &'
                 }
             }
         }
