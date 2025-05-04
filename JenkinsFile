@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven 3.9.9'
+        jdk 'JDK 21'
+    }
+
+    environment {
+        TOMCAT_WEBAPPS = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps'  // Update with real path
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/UdayVishal/TestJenkins.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    bat "copy target\\demo-0.0.1-SNAPSHOT.war C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and deployment successful'
+        }
+        failure {
+            echo 'Build or deployment failed'
+        }
+    }
+}
