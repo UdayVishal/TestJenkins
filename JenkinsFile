@@ -26,7 +26,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    bat "copy target\\demo-0.0.1-SNAPSHOT.war ${env.TOMCAT_WEBAPPS}"
+                    bat "copy target\\demo-0.0.1-SNAPSHOT.war C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps"
                 }
             }
         }
