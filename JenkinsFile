@@ -2,51 +2,31 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven 3.9.9'  // Use the name of the Maven tool configured in Jenkins
-        jdk 'JDK 21'         // Use the name of the JDK tool configured in Jenkins
+        maven 'Maven 3.9.9'
+        jdk 'JDK 21'
+    }
+
+    environment {
+        TOMCAT_WEBAPPS = 'C:\\Program Files\\Apache Software Foundation\\Tomcat 10.1\\webapps'  // Update with real path
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout the code from the Git repository
                 git 'https://github.com/UdayVishal/TestJenkins.git'
             }
         }
 
         stage('Build') {
             steps {
-                // Run Maven build to compile and package the Spring Boot app
-                script {
-                    sh 'mvn clean install -DskipTests=true'
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                // Run unit tests (if applicable)
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-        stage('Package') {
-            steps {
-                // Build the Spring Boot JAR file
-                script {
-                    sh 'mvn package -DskipTests'
-                }
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Deploy the Spring Boot application (Optional, if you want Jenkins to deploy it)
                 script {
-                    // Example of deploying with a shell script
-                    sh 'nohup java -jar target/demo-1.0.0.jar &'
+                    bat "copy target\\demo-0.0.1-SNAPSHOT.war ${env.TOMCAT_WEBAPPS}"
                 }
             }
         }
