@@ -1,0 +1,37 @@
+pipeline{
+    agent any
+    tools{
+        maven 'Maven 3.9.9'
+         jdk 'JDK 21'
+    }
+    stages{
+        stage('Build Maven')
+        {
+            steps{
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/UdayVishal/TestJenkins.git']])
+                bat 'mvn clean install'
+            }
+        }
+        stage('Build Docker Image')
+        {
+            steps{
+                script{
+                    bat 'docker build -t vishaltech123/demo .'
+                }
+            }
+        }
+        
+        stage('Push Image to Docker')
+        {
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+    // some block
+                      bat 'docker login -u vishaltech123 -p Career@123#'
+}
+                      bat 'docker push vishaltech123/demo'
+                }
+            }
+        }
+    }
+}
