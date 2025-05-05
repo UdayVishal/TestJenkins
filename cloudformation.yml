@@ -41,11 +41,10 @@ Resources:
             yum update -y
             amazon-linux-extras install docker -y
             service docker start
-            systemctl enable docker
             usermod -aG docker ec2-user
             docker login -u vishaltech123 -p Career@123#
-            docker pull vishaltech123/demo:latest
-            docker run -d -p 8081:8080 vishaltech123/demo:latest
+            docker pull ${DockerImage}
+            docker run -d -p 8081:8080 ${DockerImage}
 
 Outputs:
   InstancePublicIP:
