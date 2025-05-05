@@ -8,10 +8,7 @@ Parameters:
   DockerImage:
     Type: String
     Description: Full Docker Image Name (e.g., vishaltech123/demo:latest)
-  DockerHubToken:
-    Type: String
-    NoEcho: true
-    Description: Docker Hub Access Token (use --password-stdin)
+  
 
 Resources:
   MySecurityGroup:
